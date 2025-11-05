@@ -174,3 +174,49 @@ After completing all TODOs, test your calculator:
   Expected output: Invalid operation. Use: add, subtract, multiply, or divide
 
 */
+// Node.js & npm Lab — CLI Calculator
+
+import { add, subtract, multiply, divide } from "./utils/operations.js";
+import { parseNumbers, isValidOperation } from "./utils/parser.js";
+import _ from "lodash";
+
+const operation = process.argv[2];
+const rawNumbers = process.argv.slice(3);
+
+if (!isValidOperation(operation)) {
+  console.log("Invalid operation. Use: add, subtract, multiply, or divide");
+  process.exit(0);
+}
+
+const numbers = parseNumbers(rawNumbers);
+
+if (numbers.length === 0) {
+  console.log("Result: 0");
+  process.exit(0);
+}
+
+let result;
+switch (operation) {
+  case "add":
+    result = add(numbers);
+    break;
+  case "subtract":
+    result = subtract(numbers);
+    break;
+  case "multiply":
+    result = multiply(numbers);
+    break;
+  case "divide":
+    result = divide(numbers);
+    break;
+  default:
+    console.log("Invalid operation. Use: add, subtract, multiply, or divide");
+    process.exit(0);
+}
+
+if (typeof result === "string") {
+  console.log(result);            // e.g., "Error: Division by zero"
+} else {
+  console.log(`Result: ${result}`);
+}
+
